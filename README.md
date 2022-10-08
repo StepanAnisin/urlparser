@@ -9,7 +9,6 @@
 но ">Go", "<Go ..." и тд будут
 
 # Локальный импорт #
-В go.mod в главной директории:
 
 структура директории:
 ```
@@ -17,6 +16,8 @@
     |--main
     |--urlparser
 ```
+
+В go.mod в директории YourProject/main:
 
 Заменить путь к пакету на локальный
 
@@ -31,6 +32,14 @@ replace github.com/StepanAnisin/urlparser => ../urlparser
 ```
 go get -u github.com/StepanAnisin/urlparser
 ```
+
+В go.mod убедитесь, что стоит тег latest
+
+
+```
+require github.com/StepanAnisin/urlparser latest
+```
+
 
 В модуле, в котором используется пакет
 ```
