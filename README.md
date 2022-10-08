@@ -18,9 +18,13 @@
     |--urlparser
 ```
 
+Заменить путь к пакету на локальный
+
+```
 require github.com/StepanAnisin/urlparser v0.0.1
 
 replace github.com/StepanAnisin/urlparser => ../urlparser
+```
 
 # Импорт через github #
 
