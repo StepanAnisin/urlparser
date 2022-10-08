@@ -9,7 +9,8 @@
 но ">Go", "<Go ..." и тд будут
 
 # Локальный импорт #
-В go.mod в главной директории: 
+В go.mod в главной директории:
+
 require github.com/StepanAnisin/urlparser v0.0.0
 
 replace github.com/StepanAnisin/urlparser => ../urlparser
