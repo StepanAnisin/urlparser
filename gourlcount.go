@@ -1,11 +1,11 @@
 package urlparser
 
 import (
+	"fmt"
 	"io"
 	"net/http"
 	"net/url"
 	"regexp"
-	"sync"
 )
 
 // Get url response body
@@ -36,25 +36,27 @@ func getGoWordCount(value string) int {
 }
 
 // This function handles url asynchronously
-func handleUrl(request_url string, result *int, mutex *sync.Mutex) {
+func handleUrl(request_url string, r chan int) {
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
-	mutex.Lock()
-	*result += count
-	mutex.Unlock()
+	r <- count
 }
 
 func GetGoWordCountByUrls(urls []string) {
 	result := 0
+	//Limit goroutines number
 	const maxjobs = 5
-	var mutex sync.Mutex
-	//iterate over urls w/o index
-	for _, requset_url := range urls {
+	r := make(chan int, maxjobs)
+	for _, request_url := range urls {
 		//validate url
-		_, err := url.ParseRequestURI(requset_url)
+		_, err := url.ParseRequestURI(request_url)
 		if err != nil {
 			panic(err)
 		}
-		go handleUrl(requset_url, &result, &mutex)
+		// blocks
+		go handleUrl(request_url, r)
+		result += <-r
 	}
+	close(r)
+	fmt.Println(result)
 }
