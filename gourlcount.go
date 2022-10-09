@@ -6,6 +6,7 @@ import (
 	"net/http"
 	"net/url"
 	"regexp"
+	"sync"
 )
 
 // Get url response body
@@ -35,28 +36,37 @@ func getGoWordCount(value string) int {
 	return len(results)
 }
 
-// This function handles url asynchronously
-func handleUrl(request_url string, r chan int) {
+func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int) {
+	//blocking our buffered channel by 1
+	defer wg.Done()
+	fmt.Println("Job started")
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
-	r <- count
+	fmt.Println(len(block))
+	fmt.Println(len(block))
+	fmt.Println("Job is done")
+	*result += count
+	// unlock queue
+	<-block
 }
 
 func GetGoWordCountByUrls(urls []string) {
 	result := 0
-	//Limit goroutines number
 	const maxjobs = 5
-	r := make(chan int, maxjobs)
+	var wg sync.WaitGroup
+	wg.Add(len(urls))
+	// channel to limit goroutine number
+	block := make(chan struct{}, maxjobs)
+	defer close(block)
 	for _, request_url := range urls {
 		//validate url
 		_, err := url.ParseRequestURI(request_url)
 		if err != nil {
 			panic(err)
 		}
-		// blocks
-		go handleUrl(request_url, r)
-		result += <-r
+		block <- struct{}{}
+		go handleUrl(request_url, &wg, block, &result)
 	}
-	close(r)
+	wg.Wait()
 	fmt.Println(result)
 }
