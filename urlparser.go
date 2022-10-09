@@ -39,18 +39,15 @@ func getGoWordCount(value string) int {
 func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int) {
 	//blocking our buffered channel by 1
 	defer wg.Done()
-	fmt.Println("Job started")
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
-	fmt.Println(len(block))
-	fmt.Println(len(block))
-	fmt.Println("Job is done")
+	fmt.Printf("Count for %s:%d", request_url, count)
 	*result += count
 	// unlock queue
 	<-block
 }
 
-func GetGoWordCountByUrls(urls []string) {
+func GetGoWordCountByUrls(urls []string) int {
 	result := 0
 	const maxjobs = 5
 	var wg sync.WaitGroup
@@ -68,5 +65,6 @@ func GetGoWordCountByUrls(urls []string) {
 		go handleUrl(request_url, &wg, block, &result)
 	}
 	wg.Wait()
-	fmt.Println(result)
+	fmt.Printf("Total:%d", result)
+	return result
 }
