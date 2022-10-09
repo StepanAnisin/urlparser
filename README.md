@@ -22,7 +22,7 @@
 Заменить путь к пакету на локальный
 
 ```
-require github.com/StepanAnisin/urlparser v0.0.1
+require github.com/StepanAnisin/urlparser v0.0.0
 
 replace github.com/StepanAnisin/urlparser => ../urlparser
 ```
