@@ -34,17 +34,17 @@ replace github.com/StepanAnisin/urlparser => ../urlparser
 import (
 	"github.com/StepanAnisin/urlparser"
 )
+```
+
+Далее:
 
 ```
 go get -u github.com/StepanAnisin/urlparser
 ```
-
-или 
+или
 
 ```
 go mod tidy
-```
-
 ```
 # Вызов функции, принимающей слайс, содержащий Url (в формате string) #
 
