@@ -33,17 +33,17 @@ replace github.com/StepanAnisin/urlparser => ../urlparser
 go get -u github.com/StepanAnisin/urlparser
 ```
 
-В go.mod убедитесь, что стоит тег latest
-
-
-```
-require github.com/StepanAnisin/urlparser latest
-```
-
-
 В модуле, в котором используется пакет
 ```
 import (
 	"github.com/StepanAnisin/urlparser"
 )
+```
+Вызов функции, принимающей слайс, содержащий Url (в формате string)
+
+Пример:
+```
+urls := [...]string{"https://golang.org", "https://golang.org"}
+slice := urls[:]
+GetGoWordCountByUrls(slice)
 ```
