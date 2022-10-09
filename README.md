@@ -45,5 +45,5 @@ import (
 ```
 urls := [...]string{"https://golang.org", "https://golang.org"}
 slice := urls[:]
-GetGoWordCountByUrls(slice)
+result := urlparser.GetGoWordCountByUrls(slice)
 ```
