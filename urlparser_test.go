@@ -10,7 +10,7 @@ func TestGetGoWordCountByUrls(t *testing.T) {
 		want int
 	}{
 		{[]string{"https://golang.org", "https://golang.org", "https://golang.org", "https://golang.org",
-			"https://golang.org", "https://golang.org", "https://golang.org", "https://golang.org"}, 2},
+			"https://golang.org", "https://golang.org", "https://golang.org", "https://golang.org"}, 336},
 	}
 	for _, tc := range testcases {
 		result := GetGoWordCountByUrls(tc.in)
