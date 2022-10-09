@@ -40,7 +40,7 @@ func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, resu
 	defer wg.Done()
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
-	fmt.Printf("Count for %s:%d", request_url, count)
+	fmt.Printf("Count for %s:%d \n", request_url, count)
 	*result += count
 	// unlock queue
 	<-block
@@ -64,6 +64,6 @@ func GetGoWordCountByUrls(urls []string) int {
 		go handleUrl(request_url, &wg, block, &result)
 	}
 	wg.Wait()
-	fmt.Printf("Total:%d", result)
+	fmt.Printf("Total: %d", result)
 	return result
 }
