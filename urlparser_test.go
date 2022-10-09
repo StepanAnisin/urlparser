@@ -9,7 +9,7 @@ func TestGetGoWordCountByUrls(t *testing.T) {
 		in   []string
 		want int
 	}{
-		{[]string{"https://golang.org"}, 336},
+		{[]string{"https://golang.org"}, 42},
 		{[]string{"https://golang.org", "https://golang.org", "https://golang.org", "https://golang.org",
 			"https://golang.org", "https://golang.org", "https://golang.org", "https://golang.org"}, 336},
 	}

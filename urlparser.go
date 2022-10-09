@@ -37,7 +37,6 @@ func getGoWordCount(value string) int {
 }
 
 func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int) {
-	//blocking our buffered channel by 1
 	defer wg.Done()
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
