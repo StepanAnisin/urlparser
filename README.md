@@ -29,15 +29,22 @@ replace github.com/StepanAnisin/urlparser => ../urlparser
 
 # Импорт через github #
 
-```
-go get -u github.com/StepanAnisin/urlparser
-```
-
-В модуле, в котором используется пакет
+В модуле, в котором используется пакет добавить:
 ```
 import (
 	"github.com/StepanAnisin/urlparser"
 )
+
+```
+go get -u github.com/StepanAnisin/urlparser
+```
+
+или 
+
+```
+go mod tidy
+```
+
 ```
 # Вызов функции, принимающей слайс, содержащий Url (в формате string) #
 
