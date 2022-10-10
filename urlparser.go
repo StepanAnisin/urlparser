@@ -10,7 +10,7 @@ import (
 )
 
 // Get url response body
-func getResponceBody(request_url string) string {
+func getResponseBody(request_url string) string {
 	resp, err := http.Get(request_url)
 	if err != nil {
 		panic(err)
@@ -38,7 +38,7 @@ func getGoWordCount(value string) int {
 
 func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int, mutex *sync.Mutex) {
 	defer wg.Done()
-	response := getResponceBody(request_url)
+	response := getResponseBody(request_url)
 	count := getGoWordCount(response)
 	fmt.Printf("Count for %s:%d \n", request_url, count)
 	mutex.Lock()
