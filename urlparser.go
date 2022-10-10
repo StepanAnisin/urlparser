@@ -36,12 +36,14 @@ func getGoWordCount(value string) int {
 	return len(results)
 }
 
-func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int) {
+func handleUrl(request_url string, wg *sync.WaitGroup, block chan struct{}, result *int, mutex *sync.Mutex) {
 	defer wg.Done()
 	response := getResponceBody(request_url)
 	count := getGoWordCount(response)
 	fmt.Printf("Count for %s:%d \n", request_url, count)
+	mutex.Lock()
 	*result += count
+	mutex.Unlock()
 	// unlock queue
 	<-block
 }
@@ -50,6 +52,7 @@ func GetGoWordCountByUrls(urls []string) int {
 	result := 0
 	const maxjobs = 5
 	var wg sync.WaitGroup
+	var mutex sync.Mutex
 	wg.Add(len(urls))
 	// channel to limit goroutine number
 	block := make(chan struct{}, maxjobs)
@@ -61,7 +64,7 @@ func GetGoWordCountByUrls(urls []string) int {
 			panic(err)
 		}
 		block <- struct{}{}
-		go handleUrl(request_url, &wg, block, &result)
+		go handleUrl(request_url, &wg, block, &result, &mutex)
 	}
 	wg.Wait()
 	fmt.Printf("Total: %d", result)
